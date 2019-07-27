@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
     private fun handleValidationError(error: ValidationError) {
         login_til.error = null;
         password_til.error = null
-        error.statuses.forEach {
+        error.types.forEach {
             when (it) {
                 ValidationError.Type.EMPTY_PASSWORD -> password_til.error = "Must not be empty"
                 ValidationError.Type.WRONG_PASSWORD -> password_til.error = "Wrong password"
