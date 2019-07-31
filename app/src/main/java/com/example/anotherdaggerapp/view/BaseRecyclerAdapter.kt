@@ -30,4 +30,9 @@ class BaseRecyclerAdapter<T>(
         this.items.addAll(items)
         notifyDataSetChanged()
     }
+
+    fun clear(){
+        this.items.clear()
+        notifyDataSetChanged()
+    }
 }
