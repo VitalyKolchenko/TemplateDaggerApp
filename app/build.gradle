@@ -67,12 +67,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.0'
 
     String jacksonVersion = '2.9.6'
-    String jacksonVersion2 = '2.9.6'
-    implementation "com.fasterxml.jackson.core:jackson-core:$jacksonVersion2"
-    implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion2"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion2"
+    implementation "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jacksonVersion2"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jacksonVersion"
 
     implementation 'android.arch.lifecycle:extensions:1.1.1'
 

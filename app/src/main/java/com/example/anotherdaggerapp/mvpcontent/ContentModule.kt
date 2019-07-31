@@ -1,26 +1,22 @@
-package com.example.anotherdaggerapp.content
+package com.example.anotherdaggerapp.mvpcontent
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.example.anotherdaggerapp.R
 import com.example.anotherdaggerapp.api.IContentApi
-import com.example.anotherdaggerapp.data.ContentItem
+import com.example.anotherdaggerapp.content.ContentViewHolder
 import com.example.anotherdaggerapp.utils.cast
 import com.example.anotherdaggerapp.view.BaseRecyclerAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
-import io.reactivex.Observable
-import java.util.concurrent.TimeUnit
 
 /**
- * Created by vitaly on 2019-07-30.
+ * Created by vitaly on 2019-07-31.
  */
+
 @Module
-class ContentModule(private val contentActivity: ContentActivity) {
+class ContentModule(val contentActivity: ContentActivity) {
 
     @Provides
     fun inflater(): LayoutInflater = contentActivity.layoutInflater
@@ -36,13 +32,11 @@ class ContentModule(private val contentActivity: ContentActivity) {
     fun provideRecyclerAdapter(factory: (ViewGroup) -> ContentViewHolder) =
         BaseRecyclerAdapter(factory)
 
+
     @Provides
-    fun viewModel(contentApi: IContentApi): IContentViewModel {
-        return ViewModelProviders.of(contentActivity, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T = ContentViewModel(contentApi).cast()
-        }
-        ).get(ContentViewModel::class.java)
-    }
+    fun presenter(contentApi: IContentApi) =
+        contentActivity.lastCustomNonConfigurationInstance?.cast() ?: ContentPresenter(contentApi)
+
 }
 
 @Subcomponent(modules = [ContentModule::class])

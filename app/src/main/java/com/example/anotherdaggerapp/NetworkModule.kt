@@ -1,10 +1,12 @@
 package com.example.anotherdaggerapp
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.example.anotherdaggerapp.api.IContentApi
 import com.example.anotherdaggerapp.api.ILoginApi
+import com.example.anotherdaggerapp.data.ContentItem
 import com.example.anotherdaggerapp.data.LoginRequest
 import com.example.anotherdaggerapp.data.LoginResponse
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import dagger.Module
 import dagger.Provides
 import io.reactivex.Observable
@@ -52,6 +54,13 @@ class NetworkModule {
                 Observable.error(Throwable("Login Error"))
 
             return obs.delay(5L, TimeUnit.SECONDS)
+        }
+    }
+
+    @Provides
+    fun contentApi(): IContentApi = object : IContentApi {
+        override fun getContent(): Observable<List<ContentItem>> {
+            return Observable.just((0..50).map { ContentItem("Item $it") }).delay(3L, TimeUnit.SECONDS)
         }
     }
 }
