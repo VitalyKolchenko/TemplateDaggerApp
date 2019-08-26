@@ -1,8 +1,7 @@
 package com.example.anotherdaggerapp.mvpcontent
 
-import com.example.anotherdaggerapp.api.IContentApi
-import com.example.anotherdaggerapp.data.ContentItem
-import com.example.anotherdaggerapp.utils.async
+import com.example.anotherdaggerapp.mvpcontent.model.ContentItemDb
+import com.example.anotherdaggerapp.mvpcontent.model.IContentRepository
 import io.reactivex.subjects.ReplaySubject
 
 /**
@@ -10,23 +9,32 @@ import io.reactivex.subjects.ReplaySubject
  */
 
 
-class ContentPresenter(api: IContentApi) : BasePresenter<IContentView>() {
+class ContentPresenter(private var contentRepository: IContentRepository) : BasePresenter<IContentView>() {
 
-    private var mDataObservable: ReplaySubject<List<ContentItem>> = ReplaySubject.create(1)
+    private val mDataObservable: ReplaySubject<List<ContentItemDb>> = ReplaySubject.create(1)
 
     init {
-        api.getContent().async().subscribe(mDataObservable)
+        //loadContent()
+    }
+
+    fun loadContent() {
+        addDisposable(contentRepository.content.subscribe { mDataObservable.onNext(it) })
     }
 
     override fun attachView(view: IContentView) {
         super.attachView(view)
 
-        addDisposable(mDataObservable
+        addViewDisposable(mDataObservable
             .doOnSubscribe { view.showProgress(true) }
-            .doOnTerminate { view.showProgress(false) }
-            .subscribe(
-                { view.showContent(it) },
-                { view.showError(it) }
-            ))
+            .doAfterNext { view.showProgress(false) }
+            .subscribe { view.showContent(it) })
+
+        addViewDisposable(
+            contentRepository.errors.subscribe { view.showError(it) })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        contentRepository.onDestroy()
     }
 }

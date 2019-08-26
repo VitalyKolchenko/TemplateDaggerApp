@@ -1,6 +1,9 @@
 package com.example.anotherdaggerapp
 
 import androidx.multidex.MultiDexApplication
+import io.realm.Realm
+import java.util.logging.Level
+
 
 /**
  * Created by vitaly on 2019-07-22.
@@ -11,6 +14,8 @@ class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+
+        Realm.init(this)
     }
 
 }
