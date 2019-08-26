@@ -17,3 +17,4 @@ fun <T> Observable<T>.async(): Observable<T> =
         .observeOn(AndroidSchedulers.mainThread())
 
 fun Context.toast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+

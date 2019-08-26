@@ -1,9 +1,11 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+
+apply plugin: 'realm-android'
+
 
 android {
     compileSdkVersion 28
@@ -35,8 +37,6 @@ android {
         }
     }
 }
-
-
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -73,11 +73,14 @@ dependencies {
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jacksonVersion"
 
+    implementation 'joda-time:joda-time:2.9.9'
+
     implementation 'android.arch.lifecycle:extensions:1.1.1'
 
     implementation 'com.google.dagger:dagger-android-support:2.23.2'
     kapt 'com.google.dagger:dagger-compiler:2.23.2'
     androidTestImplementation 'com.google.dagger:dagger-android-support:2.23.2'
     kaptAndroidTest  'com.google.dagger:dagger-compiler:2.23.2'
+
 
 }

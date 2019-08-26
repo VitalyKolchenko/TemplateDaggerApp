@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.anotherdaggerapp.App
 import com.example.anotherdaggerapp.R
 import com.example.anotherdaggerapp.data.ContentItem
+import com.example.anotherdaggerapp.mvpcontent.model.ContentItemDb
 import com.example.anotherdaggerapp.utils.cast
 import com.example.anotherdaggerapp.utils.toast
 import com.example.anotherdaggerapp.view.BaseRecyclerAdapter
@@ -18,7 +19,7 @@ import javax.inject.Inject
 class ContentActivity : BaseActivity<IContentView, ContentPresenter>(), IContentView {
 
     @Inject
-    lateinit var recyclerAdapter: BaseRecyclerAdapter<ContentItem>
+    lateinit var recyclerAdapter: BaseRecyclerAdapter<ContentItemDb>
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -34,7 +35,7 @@ class ContentActivity : BaseActivity<IContentView, ContentPresenter>(), IContent
         list.adapter = recyclerAdapter
     }
 
-    override fun showContent(content: List<ContentItem>) {
+    override fun showContent(content: List<ContentItemDb>) {
         recyclerAdapter.replaceItems(content)
     }
 
@@ -48,6 +49,6 @@ class ContentActivity : BaseActivity<IContentView, ContentPresenter>(), IContent
     }
 
     internal fun onItemClick(position: Int) {
-        toast("ItemClicked: ${recyclerAdapter.items[position].text}")
+        toast("ItemClicked: ${recyclerAdapter.items[position].title}")
     }
 }

@@ -1,5 +1,6 @@
 package com.example.anotherdaggerapp
 
+import android.util.Log
 import com.example.anotherdaggerapp.api.IContentApi
 import com.example.anotherdaggerapp.api.ILoginApi
 import com.example.anotherdaggerapp.data.ContentItem
@@ -11,7 +12,10 @@ import dagger.Module
 import dagger.Provides
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.HttpException
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
@@ -60,7 +64,8 @@ class NetworkModule {
     @Provides
     fun contentApi(): IContentApi = object : IContentApi {
         override fun getContent(): Observable<List<ContentItem>> {
-            return Observable.just((0..50).map { ContentItem("Item $it") }).delay(3L, TimeUnit.SECONDS)
+            return Observable.just((0..50).map { ContentItem("Item $it") }).delay(3L, TimeUnit.SECONDS).doOnNext({ Log.d("@@@","NETWORK CALL") })
+            //return Observable.fromCallable { throw HttpException(Response.error<Any>(400, ResponseBody.create(null,""))) }
         }
     }
 }
